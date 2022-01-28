@@ -1,1 +1,87 @@
 PARTICIPANTS: use this file for creating the class diagram in mastery task 01
+@startuml
+class AddSongToPlaylistActivity{
+-playlist
+-AlbumTrackDao
++handleRequest (AddSongToPlaylistRequest addSongToPlaylistRequest) : AddSongToPlaylistResult
+}
+class CreatePlaylistActivity{
++handleRequest (CreatePlaylistRequest createPlaylistRequest) : CreatePlaylistResult
++implements CreatePlaylistRequest
++implements CreatePlaylistResult
+-playlistDao
++handleRequest
+}
+class GetPlaylistActivity{
+-playlistDao
++implements GetPlayListRequest
++implements GetPlaylistResult
++handleRequest (GetPlaylistRequest getPlaylistRequest) : GetPlaylistResult
+
+}
+class GetPlaylistSongsActivity{
+-playlistDao
++implements GetPlaylistSongsRequest
++implements GetPlaylistSongsResult
++handleRequest (GetPlaylistSongsRequest, GetPlaylistSongsResult) : GetPlaylistSongsResult
+}
+class UpdatePlaylistActivity{
+-playlistDao
++implements UpdatePlaylistRequest
++implements UpdatePlaylistResult
++handleRequest (UpdatePlaylistRequest updatePlaylistRequest) : UpdatePlaylistResult
+}
+class AlbumTrackDao{
+dynamoDbMapper: DynamoDBMapper
+}
+class PlaylistDao{
++playlistDao : String
++playlist : String
++getPlaylist (String id) : Playlist
+dynamoDbMapper: DynamoDBMapper
+}
+class AlbumTrackNotFoundException{
+-serialVersionUID
++AlbumTrackNotFoundException
+}
+class InvalidAttributeValueException{
+-serialVersionUID
++InvalidAttributeValueException
+}
+class PlaylistNotFoundException{
+-serialVersionUID
++PlaylistNotFoundException
+}
+class AlbumTrack {
+-@DynamoDBHashKey asin : String
+-@DynamoDBRangeKey trackNumber : Integer
+-albumName : String
+-songTitle : String
+-name : String
+-customerId : String
+
+}
+
+class Playlist{
+-songList: ArrayList<AlbumTrack>
+-@DynamoDBHashKey id : String
++setId: String
++songCount : Integer
++ name : String
++ customerId : String
++ tags : Set<String>
++ songList : List<AlbumTrack>
+}
+
+Playlist *-- AlbumTrack
+AddSongToPlaylistActivity *-- AlbumTrackDao
+PlaylistDao *-- CreatePlaylistActivity
+AddSongToPlaylistActivity *-- PlaylistDao
+GetPlaylistActivity *-- PlaylistDao
+Playlist *--GetPlaylistSongsActivity
+UpdatePlaylistActivity *-- PlaylistDao
+CreatePlaylistActivity *-- PlaylistDao
+GetPlaylistSongsActivity *-- PlaylistDao
+
+
+@enduml
