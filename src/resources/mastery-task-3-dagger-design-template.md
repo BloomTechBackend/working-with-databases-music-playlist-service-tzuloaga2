@@ -5,18 +5,21 @@
 Looking through `App.java` and your class diagram, identify:
 
 1. Which classes should be returned from the Dagger component
-1. Which classes have constructors that should be annotated with `@Inject`
-1. Which objects will we have to provide in a Provider method in a Module class.
+
+2. Which classes have constructors that should be annotated with `@Inject`
+3. Which objects will we have to provide in a Provider method in a Module class.
    **Recall**: *Java annotations are ways to provide additional information
    to code that can be used during compilation or runtime, such as `@Override`,
    `@Test`, or `@Mock`. The action of adding an annotation is called "annotating".*
 
 When identifying the classes, think about:
 1. Which classes only **have** dependencies on other classes, i.e. the
-   "root" classes that we interact with at the top of our service.
-1. Which classes only **are** dependencies of other classes, but have
+   "root" classes that we interact with at the top of our service. 
+
+2. Which classes only **are** dependencies of other classes, but have
    no dependencies of their own
-1. Which classes both **are** dependencies of other classes and **have**
+
+3. Which classes both **are** dependencies of other classes and **have**
    dependencies on other classes
 
 Remember that:
@@ -34,23 +37,40 @@ Remember that:
 List the class(es) that `App.java` provides that are **not** dependencies of other classes, that is, no other classes
  in the project depend on these classes
 
-* 
+* CreatePlaylistActivity
+* GetPlaylistActivity
+* UpdatePlaylistActivity
+* AddSongToPlaylistActivity
+* GetPlaylistSongsActivity
 
 List the class(es) that `App.java` provides that **are** dependencies of other classes
 
-* 
+* DynamoDBMapper
+* PlaylistDao
+* AlbumTrackDao
+
 
 List the class(es) that `App.java` creates that have constructors we must annotate with `@Inject`
 
-* 
+* PlaylistDao
+* AlbumTrackDao
+* CreatePlaylistActivity
+* PlaylistDao
+* UpdatePlaylistActivity
+* AddSongToPlaylistActivity
+* GetPlaylistSongsActivity
+
 
 List the class(es) that `App.java` creates that we must provide in a Dagger module
 
-* 
+* DynamoDBMapper
+
 
 List the class(es) that `App.java` creates as Singletons.
 
-* 
+* DynamoDBMapper
+* PlaylistDao
+* AlbumTrackDao
 
 ### Pseudocode Dagger classes
 
@@ -59,30 +79,39 @@ Fill in the below annotations and method declarations.
 your module, `DaoModule`, as indicated below. Use these names in
 your implementation as well)
 
+* CreatePlaylistActivity
+* GetPlaylistActivity
+* UpdatePlaylistActivity
+* AddSongToPlaylistActivity
+* GetPlaylistSongsActivity
 ```
-@______
-@______(______ = {______.class})
+@Singleton
+@Component(modules = {DaoModule.class})
 public interface ServiceComponent {
-    ______ provide______();
+    CreatePlaylistActivityService provideCreatePlaylistActivityService();
 
-    ______ provide______();
+    GetPlaylistActivityprovideGetPlaylistActivity();
 
-    ______ provide______();
+    UpdatePlaylistActivity provideUpdatePlaylistActivity();
 
-    ______ provide______();
+    AddSongToPlaylistActivity provideAddSongToPlaylistActivity();
 
-    ______ provide______();
+    GetPlaylistSongsActivity provideGetPlaylistSongsActivity();
 }
 ```
 
 ```
-@______
+@Module
 public class DaoModule {
 
-    @______
-    @______
-    public ______ provide______() {
+    @Singleton
+    @Provides
+    public DaoModule provideDaoModule() {
         // Implementation in milestone 2
-    }
+      
+           return new DynamoDBMapper(DynamoDbClientProvider.getDynamoDBClient(Regions.US_WEST_2));
+        }
+       
+    
 }
 ```

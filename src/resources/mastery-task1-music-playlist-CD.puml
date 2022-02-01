@@ -10,7 +10,6 @@ class CreatePlaylistActivity{
 +implements CreatePlaylistRequest
 +implements CreatePlaylistResult
 -playlistDao
-+handleRequest
 }
 class GetPlaylistActivity{
 -playlistDao
@@ -48,6 +47,14 @@ class InvalidAttributeValueException{
 -serialVersionUID
 +InvalidAttributeValueException
 }
+class InvalidAttributeException{
++InvalidAttributeException
+-serialVersionUID
+}
+class InvalidAttributeChangeException {
++InvalidAttributeChangeException
+-serialVersionUID
+}
 class PlaylistNotFoundException{
 -serialVersionUID
 +PlaylistNotFoundException
@@ -72,6 +79,10 @@ class Playlist{
 + tags : Set<String>
 + songList : List<AlbumTrack>
 }
+
+InvalidAttributeException <|-- InvalidAttributeValueException
+InvalidAttributeException <|-- InvalidAttributeChangeException
+
 
 Playlist *-- AlbumTrack
 AddSongToPlaylistActivity *-- AlbumTrackDao

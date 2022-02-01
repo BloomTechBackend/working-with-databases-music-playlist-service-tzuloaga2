@@ -12,6 +12,8 @@ import com.amazonaws.services.lambda.runtime.RequestHandler;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import javax.inject.Inject;
+
 /**
  * Implementation of the GetPlaylistActivity for the MusicPlaylistService's GetPlaylist API.
  *
@@ -21,11 +23,13 @@ public class GetPlaylistActivity implements RequestHandler<GetPlaylistRequest, G
     private final Logger log = LogManager.getLogger();
     private final PlaylistDao playlistDao;
 
+
     /**
      * Instantiates a new GetPlaylistActivity object.
      *
      * @param playlistDao PlaylistDao to access the playlist table.
      */
+    @Inject
     public GetPlaylistActivity(PlaylistDao playlistDao) {
         this.playlistDao = playlistDao;
     }
